@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from functools import reduce
 
-__version__ = '0.1.2'
+__version__ = '0.2.1'
 
 import requests
 import xmltodict
@@ -190,6 +190,13 @@ class Client(object):
     @_nested('transaction')
     def retain(self, gateway_token):
         return self.put("gateways/{}/retain".format(gateway_token))
+
+    @_nested('transaction')
+    def store(self, gateway_token, payment_method_token):
+        data = lb.E.transaction(
+            lb.E.payment_method_token(payment_method_token))
+        return self.post("gateways/{}/store".format(
+            gateway_token), data=data)
 
     @_nested('transaction')
     def redact(self, gateway_token):
