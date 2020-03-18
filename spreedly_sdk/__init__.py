@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from functools import reduce
 
-__version__ = '0.2.1'
+__version__ = '0.3.0'
 
 import requests
 import xmltodict
@@ -265,8 +265,15 @@ class Client(object):
             gateway_token, retain_on_success, payment_type='authorize', **kwargs)
 
     @_nested('transaction')
-    def capture(self, transaction_token):
-        return self.post("transactions/{}/capture".format(transaction_token))
+    def capture(self,  amount, currency_code, transaction_token):
+        data = lb.E.transaction(
+            lb.E.amount(str(amount)),
+            lb.E.currency_code(currency_code))
+
+        return self.post(
+            "transactions/{}/capture".format(transaction_token),
+            data=data
+        )
 
     @_nested('transaction')
     def void(self, transaction_token):
