@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='spreedly-sdk',
-    version='0.3.0',
+    version='0.3.1',
     author='aplazame',
     author_email='dev@aplazame.com',
     packages=['spreedly_sdk'],

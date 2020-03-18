@@ -265,7 +265,7 @@ class Client(object):
             gateway_token, retain_on_success, payment_type='authorize', **kwargs)
 
     @_nested('transaction')
-    def capture(self,  amount, currency_code, transaction_token):
+    def capture(self, amount, currency_code, transaction_token):
         data = lb.E.transaction(
             lb.E.amount(str(amount)),
             lb.E.currency_code(currency_code))
@@ -280,11 +280,11 @@ class Client(object):
         return self.post("transactions/{}/void".format(transaction_token))
 
     @_nested('transaction')
-    def credit(self, transaction_token, amount=None):
-        if amount is not None:
-            data = lb.E.transaction(lb.E.amount(str(amount)))
-        else:
-            data = None
+    def credit(self, amount, currency_code, transaction_token):
+        data = lb.E.transaction(
+            lb.E.amount(str(amount)),
+            lb.E.currency_code(currency_code))
+
         return self.post("transactions/{}/credit".format(
             transaction_token), data=data)
 
